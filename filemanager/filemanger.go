@@ -52,3 +52,10 @@ func (fmOutput *FileManager) Write(data interface{}) error {
 	defer file.Close()
 	return nil
 }
+
+func New(inputFilePath, outputFilePath string) *FileManager {
+	return &FileManager{
+		InputFilePath:  inputFilePath,
+		OutputFilePath: outputFilePath,
+	}
+}
