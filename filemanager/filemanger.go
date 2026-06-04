@@ -35,7 +35,7 @@ func (fmInput *FileManager) Read() ([]string, error) {
 
 }
 
-func (fmOutput *FileManager) Write(data string) error {
+func (fmOutput *FileManager) Write(data interface{}) error {
 	file, err := os.Create(fmOutput.OutputFilePath)
 
 	if err != nil {
