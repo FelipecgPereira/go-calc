@@ -14,10 +14,11 @@ type TaxIncludedPrice struct {
 	IOManager         iomanager.IOManager
 }
 
-func (inputJob *TaxIncludedPrice) Process() error {
+func (inputJob *TaxIncludedPrice) Process(doneChan chan bool, errorChan chan error) {
 	err := inputJob.LoadData()
 	if err != nil {
-		return err
+		errorChan <- err
+		return
 	}
 
 	result := make(map[string]string)
@@ -28,7 +29,8 @@ func (inputJob *TaxIncludedPrice) Process() error {
 
 	inputJob.TaxIncludedPrices = result
 
-	return inputJob.IOManager.Write(inputJob)
+	inputJob.IOManager.Write(inputJob)
+	doneChan <- true
 }
 
 func (inputJob *TaxIncludedPrice) LoadData() error {
